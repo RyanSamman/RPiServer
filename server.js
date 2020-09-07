@@ -31,14 +31,13 @@ io.on("connection", (socket) => {
   socket.on("toggle", () => {
     console.log('toggled');
     state *= -1;
-    socket.emit('state', state);
+    io.emit('state', state);
   })
 });
 
 const getApiAndEmit = socket => {
   state *= -1;
-  // Emitting a new message. Will be consumed by the client
-  io.sockets.emit("state", state);
+  io.emit("state", state);
 };
 
 server.listen(port, () => console.log(`Listening on port ${port}`));

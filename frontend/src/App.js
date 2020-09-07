@@ -2,7 +2,7 @@ import React, { useState, useEffect, useTransition } from 'react';
 import Background from './Background';
 import socketIOClient from "socket.io-client";
 
-const ENDPOINT = "http://127.0.0.1:4001";
+const ENDPOINT = "https://limitless-brook-22036.herokuapp.com/";
 
 const socket = socketIOClient(ENDPOINT);
 

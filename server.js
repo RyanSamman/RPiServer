@@ -1,35 +1,44 @@
-// io needs to use HTTP, express will still be the middleware for routes
-const express = require('express')
-const app = express(); //creates the express app
-const http = require('http')
-const socketIO = require('socket.io');
-const path = require('path')
+const express = require("express");
+const http = require("http");
+const socketIo = require("socket.io");
 
-app.use("/public", express.static('./public/')); //The folder that houses all our files
+const port = process.env.PORT || 4001;
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
+const app = express();
+app.use(express.static('/build'));
 
-// http server listening on port
-server = http.createServer(app)
+const server = http.createServer(app);
 
-const port = process.env.PORT || 3000;
-server.listen(port, () => {
-  console.log('listening on *:' + port);
-});
+const io = socketIo(server);
 
-io = socketIO(server)
+let interval;
+let state = -1;
 
-io.on('connection', (socket) => {
-  console.log('client is connected ' + socket.id)
+io.on("connection", (socket) => {
+  console.log("New client connected");
+  socket.emit('state', state);
+  if (interval) {
+    clearInterval(interval);
+  }
+  
+  interval = setInterval(() => getApiAndEmit(socket), 10000);
 
-  socket.on('userMessage', (data) => {
-    io.sockets.emit('userMessage', data)
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+    clearInterval(interval);
   });
 
-  socket.on('userTyping', (data) => {
-    socket.broadcast.emit('userTyping', data)
+  socket.on("toggle", () => {
+    console.log('toggled');
+    state *= -1;
+    socket.emit('state', state);
   })
+});
 
-}); 
+const getApiAndEmit = socket => {
+  state *= -1;
+  // Emitting a new message. Will be consumed by the client
+  io.sockets.emit("state", state);
+};
+
+server.listen(port, () => console.log(`Listening on port ${port}`));

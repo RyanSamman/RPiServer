@@ -1,0 +1,26 @@
+import React, { useState, useEffect, useTransition } from 'react';
+import Background from './Background';
+import socketIOClient from "socket.io-client";
+
+const ENDPOINT = "http://127.0.0.1:4001";
+
+const socket = socketIOClient(ENDPOINT);
+
+const toggle = () => {
+  socket.emit('toggle', true)
+}
+
+function App() {
+  const [state, setState] = useState(-1);
+
+  useEffect(() => {
+    socket.on('state', (newState) => setState(newState));
+    return () => socket.disconnect();
+  }, []);
+
+  return (
+    <Background state={state} toggle={toggle}/>
+  );
+}
+
+export default App;

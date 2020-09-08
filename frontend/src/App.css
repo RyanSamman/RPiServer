@@ -2,7 +2,14 @@
   text-align: center;
 }
 
-.App-logo {
+.App-header img {
+  -webkit-user-select: none;
+  user-drag: none; 
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
   height: 40vmin;
   pointer-events: none;
 }
@@ -36,8 +43,4 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-.yellow {
-  background-color: #e4d00a !important;
 }

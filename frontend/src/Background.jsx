@@ -1,18 +1,16 @@
-import React, { useTransition } from 'react'
-import { CSSTransitionGroup } from 'react-transition-group'
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react'
+import Crossfade from 'react-crossfade-image'
+import logo from './logo.svg';
+import moon from './Moon.gif';
 
-export default function Background ({ state, toggle }) {
+export default function Background({ state, toggle }) {
 	return (
-	  <CSSTransitionGroup
-		transitionName={state === 1 ? 'example' : 'example'}
-		transitionAppear={true}
-		transitionAppearTimeout={150}
-	  >
 		<header className={`App-header ${state === 1 ? 'yellow' : ''}`} onClick={toggle}>
-		  <img src={logo} className="App-logo" alt="logo" />
+			{state === 1
+			 ? <img src={moon} className="moon" alt="logo" />
+			 : <img src={logo} className="App-logo" alt="moon" />
+			 }
 		</header>
-	  </CSSTransitionGroup>
 	);
-  };
+};

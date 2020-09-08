@@ -1,7 +1,10 @@
-import React, { useState, useEffect, useTransition } from 'react';
+import React, { useState, useEffect } from 'react';
+import { CSSTransition } from 'react-transition-group'
+
 import Background from './Background';
 import socketIOClient from "socket.io-client";
 
+console.log(process.env.REACT_APP_DEV);
 const ENDPOINT = "https://limitless-brook-22036.herokuapp.com/";
 
 const socket = socketIOClient(ENDPOINT);
@@ -19,7 +22,7 @@ function App() {
   }, []);
 
   return (
-    <Background state={state} toggle={toggle}/>
+    <Background state={state} toggle={toggle} />
   );
 }
 

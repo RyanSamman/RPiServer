@@ -4,7 +4,7 @@ import { CSSTransition } from 'react-transition-group'
 import Background from './Background';
 import socketIOClient from "socket.io-client";
 
-const ENDPOINT = "https://192.168.1.18:4001" //"https://limitless-brook-22036.herokuapp.com/";
+const ENDPOINT = "https://limitless-brook-22036.herokuapp.com/";
 
 const socket = socketIOClient(ENDPOINT);
 

@@ -44,3 +44,19 @@
     transform: rotate(360deg);
   }
 }
+
+.moonbg {
+  overflow: hidden;
+  /* background-color: rgb(25, 25, 53); */
+  /* 
+    Stars shamelessly stolen from this stackoverflow question:width
+    https://stackoverflow.com/a/33948325
+  ;*/
+  background-image:
+  radial-gradient( red, rgba(209, 14, 14, 0.1) 2px, transparent 5px),
+  radial-gradient(green, rgba(0, 255, 0, 0.15) 3px, transparent 7px),
+  radial-gradient(orange, rgba(255, 123, 0, 0.1) 2px, transparent 6px),
+  radial-gradient(rgba(255, 0, 221, 0.4), rgba(38, 0, 255, 0.1) 2px, transparent 3px);
+  background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px; 
+  background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+}

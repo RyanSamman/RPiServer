@@ -1,3 +1,6 @@
+const { Gpio } = require('onoff');
+const LED = Gpio(4, 'out');
+
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
@@ -30,14 +33,19 @@ io.on("connection", (socket) => {
 
   socket.on("toggle", () => {
     console.log('toggled');
-    state *= -1;
-    io.emit('state', state);
+    getApiAndEmit(socket)
   })
 });
 
-const getApiAndEmit = socket => {
+const getApiAndEmit = (socket) => {
   state *= -1;
   io.emit("state", state);
+  LED.writeSync([0, 0, 1][state + 1]); // Enumerate -1, 1 to 0, 1
 };
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
+
+process.on('SIGINT', () => {
+  LED.writeSync(0);
+  LED.unexport();
+})

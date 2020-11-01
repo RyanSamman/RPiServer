@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react'
 
 import Background from './Background'
-import socketIOClient from "socket.io-client"
+import socketIOClient from 'socket.io-client'
 
-// Don't hard-code the URL
-console.log(process.env.REACT_APP_SOCKET_URL)
-const ENDPOINT = process.env.REACT_APP_SOCKET_URL || "https://ryans-socket.herokuapp.com/"
-
+// Window location
+const ENDPOINT = window.location.href
 const socket = socketIOClient(ENDPOINT)
 
+// Toggle function
 const toggle = () => socket.emit('toggle', true)
 
 function App() {
@@ -16,6 +15,8 @@ function App() {
 
   useEffect(() => {
     socket.on('state', (newState) => setState(newState))
+
+    // Callback upon component unmount
     return () => socket.disconnect()
   }, [])
 

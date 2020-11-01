@@ -13,37 +13,34 @@ app.use(express.static('build'))
 const server = http.createServer(app)
 const io = socketIo(server)
 
-// Current LED / Website state, -1 by default
+// Website state, -1 by default
 let state = -1
 
+// When a client connects to the SocketIO server
 io.on('connection', (socket) => {
+
   console.log('New client connected')
+
+  // Send current state
   socket.emit('state', state)
 
-  socket.on('disconnect', () => {
-    console.log('Client disconnected')
-  })
+  // Callback upon disconnect event
+  socket.on('disconnect', () => console.log('Client disconnected'))
 
-  socket.on('toggle', () => {
-    console.log('toggled')
-    getApiAndEmit()
-  })
+  // Callback upon toggle event
+  socket.on('toggle', getApiAndEmit)
 })
 
 const getApiAndEmit = () => {
    // Easiest way to flip state, * -1
   state *= -1
   io.emit('state', state)
-
-  // Map state for LED API
-  // -1 -> 0
-  //  1 -> 1
 }
 
 // Runs callback every 'INTERVAL_TIME' miliseconds
 const INTERVAL_TIME = 10000
 setInterval(() => getApiAndEmit(), INTERVAL_TIME)
 
-
+// Allow server to listen to Heroku/.env Port or 4001
 const port = process.env.PORT || 4001
 server.listen(port, () => console.log(`Listening on port ${port}`))

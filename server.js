@@ -13,10 +13,6 @@ app.use(express.static('build'))
 const server = http.createServer(app)
 const io = socketIo(server)
 
-// variable to store Interval - Runs callback every 'INTERVAL_TIME' miliseconds
-let interval
-const INTERVAL_TIME = 10000
-
 // Current LED / Website state, -1 by default
 let state = -1
 
@@ -24,17 +20,13 @@ io.on('connection', (socket) => {
   console.log('New client connected')
   socket.emit('state', state)
 
-  if (interval) clearInterval(interval)
-  interval = setInterval(() => getApiAndEmit(socket), INTERVAL_TIME)
-
   socket.on('disconnect', () => {
     console.log('Client disconnected')
-    clearInterval(interval)
   })
 
   socket.on('toggle', () => {
     console.log('toggled')
-    getApiAndEmit(socket)
+    getApiAndEmit()
   })
 })
 
@@ -47,6 +39,11 @@ const getApiAndEmit = () => {
   // -1 -> 0
   //  1 -> 1
 }
+
+// Runs callback every 'INTERVAL_TIME' miliseconds
+const INTERVAL_TIME = 10000
+setInterval(() => getApiAndEmit(), INTERVAL_TIME)
+
 
 const port = process.env.PORT || 4001
 server.listen(port, () => console.log(`Listening on port ${port}`))

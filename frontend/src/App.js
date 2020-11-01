@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { CSSTransition } from 'react-transition-group'
 
 import Background from './Background';
 import socketIOClient from "socket.io-client";
 
-const ENDPOINT = "https://limitless-brook-22036.herokuapp.com/";
+// Don't hard-code the URL
+const ENDPOINT = "https://ryans-socket.herokuapp.com/";
 
 const socket = socketIOClient(ENDPOINT);
 

@@ -1,16 +1,7 @@
 // Imports
 const http = require('http')
-const { Gpio } = require('onoff')
 const express = require('express')
 const socketIo = require('socket.io')
-
-// Create LED Object to control GPIO
-const LED = Gpio(4, 'out')
-
-process.on('SIGINT', () => {
-  LED.writeSync(0)
-  LED.unexport()
-})
 
 // Create express server
 const app = express()
@@ -55,7 +46,6 @@ const getApiAndEmit = () => {
   // Map state for LED API
   // -1 -> 0
   //  1 -> 1
-  LED.writeSync([0, 0, 1][state + 1]) 
 }
 
 const port = process.env.PORT || 4001
